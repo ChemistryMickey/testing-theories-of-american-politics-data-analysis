@@ -33,10 +33,10 @@ Critiques:
 ### Comparisons
 #### Average Citizens' Preferences
 ##### Paper
-![readme-images/paper/average-citizens-preferences.png|800x600]
+<img src="readme-images/paper/average-citizens-preferences.png" width="800" height="400">
 
 ##### Recalculation
-![readme-images/generated/average-citizens-preferences.png|800x600]
+<img src="readme-images/generated/average-citizens-preferences.png" width="800" height="400">
 
 ##### Comparison
 - Percent of cases successfully replicated but predicted probability of adoption isn't. 
@@ -46,10 +46,10 @@ Critiques:
 
 #### Economic Elites' Preferences
 ##### Paper
-![readme-images/paper/economic-elites-preferences.png|800x600]
+<img src="readme-images/paper/economic-elites-preferences.png" width="800" height="400">
 
 ##### Recalculation
-![readme-images/generated/economic-elites-preferences.png|800x600]
+<img src="readme-images/generated/economic-elites-preferences.png" width="800" height="400">
 
 ##### Comparison
 - Predicted probability much closer to the paper; it's not perfect but it's pretty close. I could believe the difference is because of the missing 70% of the dataset but it's still confusing why the Percent of cases would match so well but the predicted probability of adoption wouldn't. What are the chances the missing data have the same Percent of cases distribution?
@@ -58,10 +58,10 @@ Critiques:
 
 #### Interest Group Alignments
 ##### Paper
-![readme-images/paper/interest-group-preferences.png|800x600]
+<img src="readme-images/paper/interest-group-preferences.png" width="800" height="400">
 
 ##### Recalculation
-![readme-images/generated/interest-group-preferences.png|800x600]
+<img src="readme-images/generated/interest-group-preferences.png" width="800" height="400">
 
 ##### Comparison
 - Unable to replicate predicted probability of adoption in figures 1a (average citizen) and 1c (interest groups).
