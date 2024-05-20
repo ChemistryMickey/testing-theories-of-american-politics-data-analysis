@@ -75,3 +75,5 @@ Additional analysis available in the "Additional Analysis" section of `code/anal
 Data and supplemental materials available in `data`.
 
 Original paper and a note on R-sq available in `papers`.
+
+Paper and ~30% of the data also available at [cambridge.org, doi:10.1017/S1537592714001595](https://doi.org/10.1017/S1537592714001595)
