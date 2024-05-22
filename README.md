@@ -1,6 +1,6 @@
 # Data Analysis of: *Testing Theories of American Politics: Elites, Interest Groups, and Average Citizens*, 2014, by Gilens, M. and Page, B.
 
-## Status: **Incomplete**
+## Status: **Ostensibly Complete**
 
 **Please don't take this as an accusation of academic fraud. Authors used IBM's AMOS statistical software to generate figures and tables. AMOS may have analysis techniques not here explored or may have been incorrectly used/configured. Without a proven trend of falsehoods, it's safer to assume mistake rather than malice. I could also be wrong.**
 
