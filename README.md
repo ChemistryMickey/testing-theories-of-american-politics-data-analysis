@@ -7,8 +7,7 @@
 ## TL;DR:
 - Paper figures partially replicable
 - Those figure parts that can't be replicated are, unfortunately, critical to the central argument of economic influence on policy adoption.
-- Strong policy preference correlation (>= 0.85) among all economic classes. If a large proportion of a group is in favor of a piece of legislation, it's more likely to be adopted which is counter to the argument made in the paper.
-- Only category investigated (education, income, ideology, political leanings, age) that doesn't have a strong correlation (>= 0.85) in policy preference is ideology/political leaning.
+- Strong policy preference correlation (>= 0.85) among all economic classes. If a large proportion of a group, regardless of economic bin, is in favor of a piece of legislation, it's more likely to be adopted which is counter to the argument made in the paper.
 
 ## Replicating Figure 1 (the only figure)
 Note:
