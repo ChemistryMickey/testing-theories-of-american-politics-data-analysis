@@ -1,2 +1,8 @@
 images/*
 */.~lock*
+
+tex/*
+!tex/bib.tex
+!tex/critique-of-testing-theories-of-american-politics.tex
+!tex/critique-of-testing-theories-of-american-politics.pdf
+!tex/figures
