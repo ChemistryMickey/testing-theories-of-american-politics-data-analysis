@@ -28,7 +28,7 @@ library(dplyr) # for data munging
 library(lavaan) # for SEM modelling
 library(haven) # for importing Stata file
 
-if (as.character(packageVersion("lavaan")) != "0.5.20") {
+if (as.character(packageVersion("lavaan")) < "0.5.20") {
   stop('lavaan version 0.5.20 is required.
        You may install it with the command install.packages("https://cran.r-project.org/src/contrib/Archive/lavaan/lavaan_0.5-20.tar.gz",repos=NULL,type="source")')
 }

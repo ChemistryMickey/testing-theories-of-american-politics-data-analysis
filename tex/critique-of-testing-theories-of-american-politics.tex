@@ -13,20 +13,18 @@
 \usepackage{color}
 
 %opening
-\title{A Critique of \textit{Testing Theories of American Politics: Elites, Interest Groups, and Average Citizens} (2014, Perspectives on Politics)}
+\title{A Critique of \textit{Testing Theories of American Politics: Elites, Interest Groups, and Average Citizens} \cite{gilens}}
 \author{Michael T Da Silva}
 
 \begin{document}
 \maketitle
 
 \begin{abstract}
-	\textbf{CAVEAT}: We do not mean to imply we believe this paper is academic fraud. That is a serious accusation requiring a more thorough longitudinal analysis of the authors' works which was not here performed. Also, our analysis could be incorrect.\\
-	
-	That being said, the conclusion drawn by the authors in the paper in question -- the legislation passed in the U.S. is uninfluenced by the opinion of those not in the economic elite -- is supported by figures and tables which misrepresent the data. Upon reevaluation, it is more clearly the contradictory conclusion -- the legislation we pass is likely impacted by both the opinions of the economically average citizen and the economic elite. 
+	The conclusion drawn in \textit{Testing Theories of American Politics: Elites, Interest Groups, and Average Citizens} -- the legislation passed in the U.S. is uninfluenced by the opinion of those not in the economic elite or business-oriented special interest groups -- is supported by figures and tables which misrepresent the data used in the analysis. Upon reevaluation, it is more clearly the contradictory conclusion -- the legislation we pass is likely impacted by both the opinions of the economically average citizen and the economic elite. 
 	
 	There may be a difference when there is explicit disagreement between the average citizen and the economic elite, but that is such a minority of cases in the dataset that a clear conclusion is difficult to draw.
 	
-	Finally, the impact of interest groups seems to be no more significant than a plurality of average citizens or economic elites based on the metric herein. This metric is not shown to be an effective predictor of legislative outcome.
+	Finally, the impact of interest groups, in the data used, seems to be no more significant than a plurality of average citizens or economic elites based on "Net Interest Group Alignment". This metric is not shown to be an effective predictor of legislative outcome and there is little reason to believe it would be so.
 
 \end{abstract}
 
@@ -39,14 +37,14 @@ Then, we will attempt to regenerate the figure in question to elucidate what met
 Next, we inspect the tables and how they support the narrative of the paper.
 Finally, the narrative and conclusions will be examined in light of the figure and tables.\\
 
-The Python and data used in this analysis can be found on Github at \href{https://github.com/ChemistryMickey/testing-theories-of-american-politics-data-analysis}{testing-theories-of-american-politics-data-analysis}. Additionally found there is an R script provided by the authors (though used in a separate paper for a similar analysis). The software used for the authors' analysis was IBM's Amos package such that more advanced statistical analysis may have been performed but if so, we will show that it was not properly communicated.
+The Python and data used in this analysis can be found on Github at \href{https://github.com/ChemistryMickey/testing-theories-of-american-politics-data-analysis}{testing-theories-of-american-politics-data-analysis}. Additionally found there is an R script provided by the authors (though used in a separate paper for a similar analysis). The software used for the authors' analysis was IBM's Amos package such that more advanced statistical analysis may have been performed but if so, we will here show that it was not properly communicated.
 
 \section{Acknowledgments}
 Thank you to Dr. Martin Gilens for providing additional analysis scripts and data clarification as well as Drs. Martin Giles and Benjamin Page for collecting these data. 
 It clearly took a massive amount of work to gather and process.
 Thank you also for making them available at \cite{gilens}.
 
-Thank you also to Peter Cramer for reviewing this article.
+Thank you also to Peter Cramer for reviewing this article as well as Drs. Dhindsa and Patel for the sanity check.
 
 \section{Inspection of Figure 1}
 
@@ -69,14 +67,14 @@ To begin, we will address each plot in figure 1 individually (breaking up figure
 	\label{paper_figure1a}
 \end{figure}
 
-Nothing about this figure immediately stands out as problematic. There is a reasonable distribution of cases (see figure \ref{paper_figure1a} for an explanation of axes) across percent favoring brackets and it's approximately normal.
+Nothing about this figure immediately stands out as problematic. There is a reasonable distribution of cases (see figure \ref{paper_figure1a} for an explanation of axes) across percent favoring brackets and it is approximately normal.
 
 The first red flag concerning this figure comes at the bottom of page 572R and the bottom of 573L \cite{gilens}:
 \begin{quotation}
 	"Since the preferences of ordinary citizens tend to be positively correlated with the preferences of economic elites, ordinary citizens often win the policies they want, even if they are more or less coincidental beneficiaries rather than causes of the victory."
 \end{quotation}
 This statement, when taken in conjunction with figure 1b (figure \ref{paper_figure1b} in this analysis), indicates that the two plots should look reasonably similar.
-If two things are correlated, when examining the same independent variable (proportion favoring adoption), one would expect the independent variable (probability of adoption) to behave similarly.
+If two things are correlated, when examining the same independent variable (proportion favoring adoption), one would expect the dependent variable (probability of adoption) to behave similarly.
 
 Granted, the x-axes aren't exactly the same -- one is the proportion of average citizens and the other is the proportion of economic elites -- but it still indicates additional data processing was done to generate this figure. This was later confirmed by the authors in our correspondence but is not indicated in the figure caption or the writing.
 This oversight makes this figure especially vulnerable to misinterpretation when taken out of context in part because there is no context to be had.\\
@@ -111,7 +109,7 @@ Considering the other identified issues, this is minor and the small difference 
 	\begin{center}
 		\includegraphics[width=300px]{./figures/paper/interest-group-preferences.png}
 	\end{center}	
-	\caption{Figure 1c from \textit{Testing Theories of American Politics: Elites, Interest Groups, and Average Citizens} is here shown. Without delving into the text, several issues stand out. \\The data are approximately normal about 0 but the plot extends beyond where there are data. A plot between [-6, 6] would have been sufficient to prove the authors' point without extrapolating into a sparse or absent data region. \\Given how few data are in some regions, a fit must have been performed to interpolate into the holes in the negative region and extrapolate into the positive region. The choice of a logistic/sigmoid function for this interpolation/extrapolation encodes an assumption which may not be valid. Performing a fit is not necessarily bad practice but doing so without indicating in a caption or writing is misleading.}
+	\caption{Figure 1c from \textit{Testing Theories of American Politics: Elites, Interest Groups, and Average Citizens} is here shown. Without delving into the text, several issues stand out. \\The data are approximately normal about 0 but the plot extends beyond where there are data. A plot between [-6, 6] would have been sufficient to hypothesize that interest group alignment is correlated with legislative outcome without extrapolating into a sparse or absent data region. \\Given how few data are in some regions, a fit must have been performed to interpolate into the holes in the negative region and extrapolate into the positive region. The choice of a logistic/sigmoid function for this interpolation/extrapolation encodes an assumption which may not be valid. Performing a fit is not necessarily bad practice but doing so without indicating in a caption or writing is misleading.}
 	\label{paper_figure1c}
 \end{figure}
 
@@ -140,9 +138,6 @@ This metric (net interest group alignment) gives both interest groups the same w
 Figures 1a and 1c both have serious omissions of analysis methodology which contaminate their use in the narrative of the authors and their use beyond the scope of this paper.
 Granted, the authors had no way to know that these figures would be used outside the narrow context of an academic paper within the political scientist community but the omission of critical assumptions and analysis techniques, unless such techniques are trivial among all their colleagues, is irresponsible at best and misleading at worst.
 When these assumptions are discarded, the figures and therefore the conclusions drawn from them are invalid or even contrary to those proposed in this paper.\\
-
-Here we would like to reiterate that this is not an accusation of fraud but this is an irresponsible presentation of data.
-The authors clearly put in a massive amount of time and effort collecting the data used in their analysis and freely offer them, but that same dedication is not reflected in the presentation of those data.
 
 \newpage
 \section{Regeneration of Figure 1}
