@@ -11,6 +11,27 @@
 	urlcolor=blue,
 }
 \usepackage{color}
+\usepackage{listings}
+\lstdefinestyle{mystyle}{
+	% backgroundcolor=\color{backcolour},   
+	commentstyle=\color{orange},
+	keywordstyle=\color{blue},
+	numberstyle=\tiny\color{gray},
+	stringstyle=\color{purple},
+	basicstyle=\footnotesize,
+	breakatwhitespace=false,         
+	breaklines=true,                 
+	captionpos=b,                    
+	keepspaces=true,                 
+	% numbers=false,                    
+	numbersep=5pt,                  
+	showspaces=false,                
+	showstringspaces=false,
+	showtabs=false,                  
+	tabsize=2
+}
+\lstset{style=mystyle}
+\usepackage{indentfirst}
 
 %opening
 \title{A Critique of \textit{Testing Theories of American Politics: Elites, Interest Groups, and Average Citizens} \cite{gilens}}
@@ -20,208 +41,30 @@
 \maketitle
 
 \begin{abstract}
-	The conclusion drawn in \textit{Testing Theories of American Politics: Elites, Interest Groups, and Average Citizens} -- the legislation passed in the U.S. is uninfluenced by the opinion of those not in the economic elite or business-oriented special interest groups -- is supported by figures and tables which misrepresent the data used in the analysis. Upon reevaluation, it is more clearly the contradictory conclusion -- the legislation we pass is likely impacted by both the opinions of the economically average citizen and the economic elite. 
-	
-	There may be a difference when there is explicit disagreement between the average citizen and the economic elite, but that is such a minority of cases in the dataset that a clear conclusion is difficult to draw.
-	
-	Finally, the impact of interest groups, in the data used, seems to be no more significant than a plurality of average citizens or economic elites based on "Net Interest Group Alignment". This metric is not shown to be an effective predictor of legislative outcome and there is little reason to believe it would be so.
+	The conclusion drawn in \textit{Testing Theories of American Politics: Elites, Interest Groups, and Average Citizens} -- the legislation passed in the U.S. is uninfluenced by the opinion of those not in the economic elite or business-oriented special interest groups -- is supported by figures and tables which misrepresent the data. Upon reevaluation, it is more clearly the contradictory conclusion -- the legislation we pass is primarily impacted by both the opinions of the economically average citizen and interest groups. There is, however, insufficient data for the multivariate model derived to tell those two groups apart.
 
 \end{abstract}
 
 \section{Motivation and Outline of Critique}
 Rhetoric surrounding voting is becoming increasingly heated in the U.S. \cite{voting_rights}. 
-As such, an influential paper which has a figure which can be interpreted to mean that voting has no impact on policy adoption if one isn't in the top 90th percentile of income is a potential political flash-point.
+As such, an influential paper which has a figure which can be interpreted to mean that voting has no impact on policy adoption if one isn't in the top 90th percentile of income or aligned with powerful interest groups is a potential political flash-point.
 
-This analysis will begin with a close inspection of the figure and its surrounding writing.
-Then, we will attempt to regenerate the figure in question to elucidate what methods were used to create it.
-Next, we inspect the tables and how they support the narrative of the paper.
-Finally, the narrative and conclusions will be examined in light of the figure and tables.\\
+This analysis will begin with a close inspection of the model used by examining the tables given in the original paper.
+Then, we will attempt to regenerate the model in question to elucidate what methods were used to create it and what assumptions were baked in.
+Finally, the narrative and conclusions will be examined in light of the model and tables.\\
 
 The Python and data used in this analysis can be found on Github at \href{https://github.com/ChemistryMickey/testing-theories-of-american-politics-data-analysis}{testing-theories-of-american-politics-data-analysis}. Additionally found there is an R script provided by the authors (though used in a separate paper for a similar analysis). The software used for the authors' analysis was IBM's Amos package such that more advanced statistical analysis may have been performed but if so, we will here show that it was not properly communicated.
 
 \section{Acknowledgments}
-Thank you to Dr. Martin Gilens for providing additional analysis scripts and data clarification as well as Drs. Martin Giles and Benjamin Page for collecting these data. 
+Thank you to Dr. Martin Gilens for providing additional analysis scripts and data clarification as well as Drs. Martin Gilens and Benjamin Page for collecting these data. 
 It clearly took a massive amount of work to gather and process.
 Thank you also for making them available at \cite{gilens}.
 
-Thank you also to Peter Cramer for reviewing this article as well as Drs. Dhindsa and Patel for the sanity check.
-
-\section{Inspection of Figure 1}
-
-\begin{figure}[H]
-	\begin{center}
-		\includegraphics[height=400px]{./figures/figure1.png}
-	\end{center}	
-	\caption{Figure 1 from \textit{Testing Theories of American Politics: Elites, Interest Groups, and Average Citizens} is here shown. From a clarity standpoint, figures should, ideally, be able to stand by themselves because they are most likely to be taken out of context. As such, a more comprehensive figure caption would be appreciated such that the narrative is clearly explained along with the analysis method performed to generate these plots.}
-	\label{paper_figure1}
-\end{figure}
-
-To begin, we will address each plot in figure 1 individually (breaking up figure 1 into figure 1a for "Average Citizens' Preferences", 1b for "Economic Elites' Preferences", and 1c for "Interest Group Alignments") then address the group of subfigures as a whole.
-
-\subsection{Figure 1a - Average Citizens' Preferences}
-\begin{figure}[H]
-	\begin{center}
-		\includegraphics[width=300px]{./figures/paper/average-citizens-preferences.png}
-	\end{center}	
-	\caption{Figure 1a from \textit{Testing Theories of American Politics: Elites, Interest Groups, and Average Citizens} is here shown. An explanation of the axes follows: \\The x-axis is the proportion of people in this income percentile (here the 50th percentile) who want the legislation to pass; the 90-100 bracket therefore indicates that 90-100\% of survey respondents in the 50th income percentile want the legislation to pass. \\The left axis indicates the probability that the legislation will pass for that preference bracket; if 90-100\% of 50th income percentile want legislation to pass, this plot indicates there's a slightly greater than 30\% chance of it passing. \\The right axis indicates the number of cases examined in this dataset which have that proportion of 50th income percentile respondents favoring the policy being adopted; out of these $\approx$1800 cases examined, about 4\% of them had 90-100\% of the 50th income percentile favoring their adoption.}
-	\label{paper_figure1a}
-\end{figure}
-
-Nothing about this figure immediately stands out as problematic. There is a reasonable distribution of cases (see figure \ref{paper_figure1a} for an explanation of axes) across percent favoring brackets and it is approximately normal.
-
-The first red flag concerning this figure comes at the bottom of page 572R and the bottom of 573L \cite{gilens}:
-\begin{quotation}
-	"Since the preferences of ordinary citizens tend to be positively correlated with the preferences of economic elites, ordinary citizens often win the policies they want, even if they are more or less coincidental beneficiaries rather than causes of the victory."
-\end{quotation}
-This statement, when taken in conjunction with figure 1b (figure \ref{paper_figure1b} in this analysis), indicates that the two plots should look reasonably similar.
-If two things are correlated, when examining the same independent variable (proportion favoring adoption), one would expect the dependent variable (probability of adoption) to behave similarly.
-
-Granted, the x-axes aren't exactly the same -- one is the proportion of average citizens and the other is the proportion of economic elites -- but it still indicates additional data processing was done to generate this figure. This was later confirmed by the authors in our correspondence but is not indicated in the figure caption or the writing.
-This oversight makes this figure especially vulnerable to misinterpretation when taken out of context in part because there is no context to be had.\\
-
-The second red flag concerning this figure lies on page 573R in the penultimate paragraph of the dominant section \cite{gilens}:
-\begin{quotation}
-	\label{43_percent}
-	"Most strikingly, even overwhelmingly large pro-change majorities, with 80 percent of the public favoring a policy change, got that change only about 43 percent of the time."
-\end{quotation}
-If we use those numbers (80-90\% bracket) and inspect the left axis of figure 1a (figure \ref{paper_figure1a} here) to get the probability of adoption, we see that it's about 30\%, not the 43\% quoted.
-This does, however, match the value obtained in figure \ref{generated_figure1a} which doesn't use any additional data filtering.\\
-
-In conclusion, the data used to generate figure 1a must be additionally filtered in a way not mentioned in the paper or figure title/caption. 
-This missing method is critical to the conclusion drawn with respect to the efficacy of voting; a figure generated without this mysterious additional filtering is shown in figure \ref{generated_figure1a} and a figure generated with the filtering described in an R script provided by the authors is provided in figure \ref{generated_filtered_figure1a}, neither of which match figure 1a in the paper.
-
-\subsection{Figure 1b - Economic Elites' Preferences}
-\label{section_figure1b}
-\begin{figure}[H]
-	\begin{center}
-		\includegraphics[width=300px]{./figures/paper/economic-elites-preferences.png}
-	\end{center}	
-	\caption{Figure 1b from \textit{Testing Theories of American Politics: Elites, Interest Groups, and Average Citizens} is here shown. Here we can plainly see (in contrast to figure \ref{paper_figure1a}) that as more economic elites prefer adopting a policy, the greater the chance that policy is adopted. \\This matches almost exactly our attempt to regenerate this figure (figure \ref{generated_figure1b}) such that this is the most clear figure.}
-	\label{paper_figure1b}
-\end{figure}
-
-Here there are neither writing discrepancies nor regeneration issues such that this is the cleanest of the three subfigures.
-There is some small difference in the regenerated figure but there is also a small discrepancy in the number of cases used in the paper's analysis (1779) compared to the number of cases present in the dataset provided (1863).
-Considering the other identified issues, this is minor and the small difference in the regenerated plot (figure \ref{generated_figure1b}) is likely the result of the difference in dataset size.
-
-\subsection{Figure 1c - Interest Group Alignments}
-\begin{figure}[H]
-	\begin{center}
-		\includegraphics[width=300px]{./figures/paper/interest-group-preferences.png}
-	\end{center}	
-	\caption{Figure 1c from \textit{Testing Theories of American Politics: Elites, Interest Groups, and Average Citizens} is here shown. Without delving into the text, several issues stand out. \\The data are approximately normal about 0 but the plot extends beyond where there are data. A plot between [-6, 6] would have been sufficient to hypothesize that interest group alignment is correlated with legislative outcome without extrapolating into a sparse or absent data region. \\Given how few data are in some regions, a fit must have been performed to interpolate into the holes in the negative region and extrapolate into the positive region. The choice of a logistic/sigmoid function for this interpolation/extrapolation encodes an assumption which may not be valid. Performing a fit is not necessarily bad practice but doing so without indicating in a caption or writing is misleading.}
-	\label{paper_figure1c}
-\end{figure}
-
-Here the writing of page 574, section "Organized Interest Groups", does not introduce discrepancies unless one considers those present in the figure itself.
-
-The claim that \cite{gilens}
-\begin{quotation}
-	"organized interest groups have a very substantial [sic] independent impact upon public policy"
-\end{quotation}
-is less obvious when one considers that data are mostly available in the [-4, 4] regions of figure \ref{paper_figure1c}. 
-If one were to zoom into that region alone, one would see an approximately linear relationship between net interest groups and the probability of adoption whose magnitude approximately matches that of the economic elites' preferences shown in figure \ref{paper_figure1b}.
-As such, this choice to extrapolate into low/no data regions greatly alters the interpretation of this plot and therefore the conclusion of the section "Organized Interest Groups".\\
-
-As a small critique, one mathematical equation is given in this paper (page 569R) and is the following \cite{gilens}:
-\begin{align*}
-	\text{Net Interest-Group Alignment} &= \ln(\text{\# Strongly Favor} + 0.5* \text{\# Somewhat Favor} + 1) \\ &- \ln(\text{\# Strongly Oppose} + 0.5* \text{\# Somewhat Oppose} + 1)
-\end{align*}
-This is not used in figure 1c despite having the same name as the x-axis.
-In light of the other issues with this figure, this is simply a difference in label but indicates a lack of coherency in the writing of the paper.\\
-
-Finally, as a logical critique, there's little reason to believe that the more interest groups which are in favor or oppose a piece of legislation, the greater the chance it'll pass.
-If an interest group with the weight and coffers of the NRA had a strong opinion about a piece of legislation such that the riches of Timbuktu were spent getting it passed, it likely matters little that a small interest group opposes them. 
-This metric (net interest group alignment) gives both interest groups the same weight, differing only if one "strongly" or "somewhat" agrees/disagrees\footnote{And yet even this critique is assuming that money is a more powerful predictor of adopting legislation which is also not here proven. It may be so shown in other papers but it is not here a given but is unnecessary to complete the critique of net interest group alignment as a valid metric.}.
-
-\subsection{Figure 1 as a Whole}
-Figures 1a and 1c both have serious omissions of analysis methodology which contaminate their use in the narrative of the authors and their use beyond the scope of this paper.
-Granted, the authors had no way to know that these figures would be used outside the narrow context of an academic paper within the political scientist community but the omission of critical assumptions and analysis techniques, unless such techniques are trivial among all their colleagues, is irresponsible at best and misleading at worst.
-When these assumptions are discarded, the figures and therefore the conclusions drawn from them are invalid or even contrary to those proposed in this paper.\\
+Thank you also to Peter Cramer for reviewing this article as well as Drs. Dhindsa and Patel for the additional sanity check.
 
 \newpage
-\section{Regeneration of Figure 1}
-In this section, we will first naïvely make those subplots of figure 1 (figure \ref{paper_figure1}) based on the writing of the paper -- without the additional methods obtained from author correspondence -- and then attempt to regenerate them using those additional filtering methods.
-
-\subsection{Regenerate Figure 1a}
-\begin{figure}[H]
-	\begin{center}
-		\includegraphics[width=300px]{./figures/generated/average-citizens-preferences.png}
-	\end{center}	
-	\caption{An attempt at regenerating figure 1a without additional filtering from \textit{Testing Theories of American Politics: Elites, Interest Groups, and Average Citizens} is here shown. It can be seen that the histogram very nearly matches that found in the paper's figure 1a (figure \ref{paper_figure1a}) with a small additional bump in the 40-50 percent favoring proposed policy change bracket. This can potentially be explained by the additional data present in the dataset (see section \ref{section_figure1b} for elaboration). What those few additional data cannot explain is the clear upwards trend; as a greater proportion of the population favors a piece of legislation, the greater the chance it will be adopted. \\This contradicts the conclusion drawn by the authors but does match the 43\% chance of policy adoption at the 80-90\% favor bracket described on page 573R. This indicates that this plot was at some point generated in the authors' analysis but was omitted from the final paper.\\Additionally, this is quite similar to the plot for economic elites' preference vs. probability of adoption which would be expected if the preferences of the average citizen and economic elites was highly correlated.}
-	\label{generated_figure1a}
-\end{figure}
-
-\subsection{Regenerate Figure 1b}
-\begin{figure}[H]
-	\begin{center}
-		\includegraphics[width=300px]{./figures/generated/economic-elites-preferences.png}
-	\end{center}	
-	\caption{An attempt at regenerating figure 1b without additional filtering from \textit{Testing Theories of American Politics: Elites, Interest Groups, and Average Citizens} is here shown. This is by far the closest regeneration attempt such that any small discrepancies are potentially explainable by the difference in dataset size as explained in section \ref{section_figure1b}.}
-	\label{generated_figure1b}
-\end{figure}
-
-\subsection{Regenerate Figure 1c}
-\begin{figure}[H]
-	\begin{center}
-		\includegraphics[width=300px]{./figures/generated/interest-group-preferences.png}
-	\end{center}	
-	\caption{An attempt at regenerating figure 1c without additional filtering from \textit{Testing Theories of American Politics: Elites, Interest Groups, and Average Citizens} is here shown. In the region of highest density, [-4, 4], there is a clear positive correlation but outside of that region the lack of data causes any trend to devolve into noise. \\Here it can also be seen that fitting the data using a logistic function assumes the authors' conclusion -- as the net interest group alignment increases, the probability of adoption would tend to 1 and as the net interest group alignment decreases, the probability of adoption would tend to 0. Based on what little data are on the fringes, that doesn't appear to be any more true than for the other two groups explored.}
-	\label{generated_figure1c}
-\end{figure}
-
-\begin{figure}[H]
-	\begin{center}
-		\includegraphics[width=300px]{./figures/generated/interest-group-count-histogram.png}
-	\end{center}	
-	\caption{As an additional demonstration of the sparsity of net interest group data, a finer histogram is here shown. The left and right plots in this figure contain the same data but different y-axis limits to allow us to examine the extrema of the x-axis. \\From this, we can clearly see there are shockingly few data outside of the central spike such that one cannot make a reasonable claim to statistical significance}
-	\label{generated_figure1c_data_sparsity}
-\end{figure}
-
-\subsection{Regeneration of Figures 1a and 1b with Disagreement Filter}
-Based on the analysis shown in the R file provided by the authors, the additional filter which should result in a proper regeneration of the paper's figures 1a and 1b is to consider consider the pieces of legislation in which the economic elites and average citizens disagree in their desire for adoption.
-
-Rather than applying that all at once -- because the logic for which cases to include would need to change when the proportion in favor of legislation crosses 50\% and so few data would remain that noise would dominate -- we will here show all four cases separately:
-\begin{enumerate}
-	\item Average Citizens' Preference when Economic Elites Oppose
-	\item Average Citizens' Preference when Economic Elites Support
-	\item Economic Elites' Preference when Average Citizen Opposes
-	\item Economic Elites' Preference when Average Citizen Supports
-\end{enumerate}
-
-If we apply that support/oppose filter, we obtain the following figures:
-\begin{figure}[H]
-	\begin{center}
-		\includegraphics[width=300px]{./figures/generated/contrasting-desires/average-citizens-preferences-when-rich-no-want.png}
-		\includegraphics[width=300px]{./figures/generated/contrasting-desires/average-citizens-preferences-when-rich-wants.png}
-	\end{center}	
-	\caption{Here figure \ref{generated_figure1a} is recreated with the addition of a "disagreement filter" such that two plots are generated: one in which the economic elite oppose the legislation ($< 50\%$ in favor) and one where they support it ($> 50\%$ in favor). Here it becomes more apparent that the average citizen and economic elites seldom disagree. If we were to examine only those cases in which the economic elite don't want the legislation to pass and the average citizens do, we would only be able to consider those cases to the right of 50\% in the top figure which is a pittance of cases. Similarly, if we examine the cases where the economic elite do want the legislation to pass but the average citizens don't (bottom), we would be limited to the cases to the left of 50\% which is again the vast minority. This supports the written statement in the paper that the average citizens' and economic elites' preferences are highly correlated but undermines our ability to draw clear conclusions.}
-	\label{generated_filtered_figure1a}
-\end{figure}
-
-\begin{figure}[H]
-	\begin{center}
-		\includegraphics[width=300px]{./figures/generated/contrasting-desires/economic-elites-preferences-when-middle-no-wants.png}
-		\includegraphics[width=300px]{./figures/generated/contrasting-desires/economic-elites-preferences-when-middle-wants.png}
-	\end{center}	
-	\caption{Here figure \ref{generated_figure1b} is recreated with the addition of a "disagreement filter" such that two plots are generated: one in which the average citizen opposes the legislation ($< 50\%$ in favor) and one where they support it ($> 50\%$ in favor). This is perhaps the strongest figure in favor of the authors' original conclusion because the top figure (in which the average citizen opposes the legislation) shows that beyond 50\% economic elites in favor, they have a $\approx 30-50\%$ chance of having it passed which isn't in figure \ref{generated_filtered_figure1a} (top). This is, however again, a minority of the dataset such that a more thorough analysis would need to be done to determine if there are enough data to draw that conclusion.}
-	\label{generated_filtered_figure1b}
-\end{figure}
-
-To create the split figures which would only include those data where the economic elites and average citizens disagree, one would take the right half of the top of each figure and the left half of the bottom and combine them.
-Upon doing the mental photoshop, one should see that significant portions of the plots would be missing because no data cover most of the right side of the top or left side of the bottom plot of figure \ref{generated_filtered_figure1a}. As such, one would be unable to regenerate figure 1a using a simple disagreement filter. We can therefore conclude that additional, undisclosed fitting was done similar to figure 1c which also lacked data.\\
-
-One method which would result in a proper regeneration of the authors' figure 1a would be to subtract a parameter, $\beta(\%_{favor})$ -- a function of the percent in favor of the policy change -- from each point in the Average Citizens' Preferences plot. 
-If this $\beta$ is the distance between the average probability of policy adoption at each percent favoring adoption, this removes the upwards trend of the Average Citizens' Preference.
-Doing so, however, again assumes the conclusion. 
-Performing a "detrend" (as this is sometimes called) on the Average Citizens' Preferences using the Economic Elites' Preference probability of policy adoption fitted slope is just as logically valid as the opposite;
-in which case the economic elites would be shown to have no impact.
-As such, this analysis method is here discarded as a valid method of objective measurement.\\
-
-In conclusion, to regenerate the paper's original figure 1a, a different filtering method must have been used than that given in the R script provided by the authors or significant data extrapolation would be required which was not disclosed in either the figure caption or writing.
-
 \section{Tables 3 \& 4 - p-scores and $R^2$}
-In this section, we'll explore tables 3 and 4 which relate to both theoretical economic models outlined in the paper and the data.
+To begin, we'll explore tables 3 and 4 which relate to both theoretical economic models outlined in the paper and the data.
 For more information on the economic models themselves, refer to the paper but the criticism contained herein is comprehensible without an understanding of them.
 For a brief refresher on p-scores and $R^2$ values, please refer to sections \ref{section_p-score} and \ref{section_R-sq} respectively.
 
@@ -237,7 +80,7 @@ For a brief refresher on p-scores and $R^2$ values, please refer to sections \re
 	\begin{center}
 		\includegraphics[height=300px]{./figures/paper/economic-table4.png}
 	\end{center}	
-	\caption{Table 4 from \textit{Testing Theories of American Politics: Elites, Interest Groups, and Average Citizens} is here shown. In particular we should focus on two numbers on this table: $p < .001$ and R-sq ($R^2$) $= 0.07$. Briefly, p-score is a measure of how confident one can be that their measurement is within a distribution (the lower, the more likely it is from a \textit{different} distribution), and $R^2$ is a measure of how well a model fits data (the closer to 1 the better the fit). As such, having a p-score so low (which indicates high confidence) and an $R^2$ of nearly zero (which indicates no correlation), we can conclude we are confident the data on this table are noise. This is additionally masked by using the Standard Error (values in parentheses) rather than a calculated error. With an $R^2$ so low, the calculated error is likely much larger than the standard error. \\With that conclusion, we cannot draw any further conclusions from tables 3 or 4. Unfortunately, these tables are critical for the authors' arguments such that they cannot be used as proof and may even contribute to the counterargument of the authors' conclusion.}
+	\caption{Table 4 from \textit{Testing Theories of American Politics: Elites, Interest Groups, and Average Citizens} is here shown. In particular we should focus on two numbers on this table: $p < .001$ and R-sq ($R^2$) $= 0.07$. Briefly, p-score is a measure of how confident one can be that their measurement is within a distribution (the lower, the more likely it is from a \textit{different} distribution; this is the desired condition to prove significance), and $R^2$ is a measure of how well a model fits data (the closer to 1 the better the fit). As such, having a p-score so low (which indicates high confidence) and an $R^2$ of nearly zero (which indicates no correlation), we can be confident that the model used to generate this table fails to capture trends in the data. \\With that, we cannot draw any further conclusions from tables 3 or 4. Unfortunately, these tables are critical for the authors' arguments such that they cannot be used as proof and may even contradict the authors' conclusion.}
 	\label{paper_table4}
 \end{figure}
 
@@ -250,14 +93,178 @@ To further emphasize this point, figure \ref{generated_low_r2} demonstrates data
 	\label{generated_low_r2}
 \end{figure}
 
+\section{Attempted Model Regeneration}
+\label{section:model-regen}
+\subsection{Regenerating Exactly as Defined in Author-Provided R Script}
+In communicating with Dr. Martin Gilens, an R script was provided which includes a Structural Equation Model (SEM) which ostensibly reproduces the results obtained in the original paper.
+This model was run in both R (using Lavaan \cite{lavaan}) and Python (using semopy \cite{semopy}) and the result obtained was nothing close to that expressed in tables 3 and 4 of the original paper.
+
+The model used in both cases is the following (here in python):
+\begin{lstlisting}[language=python,label=strict-model-definition,caption={SEM model with assumed, manual covariance between rangepred50 and rangepred90}]
+from semopy import Model
+model = Model(
+	description="""
+		# measurement
+		L5 =~ 1 * rangepred50
+		L9 =~ 1 * rangepred90
+		IG_bal =~ 1 * rangeinterest
+		
+		# regressions
+		policy_change ~ L5 + L9 + IG_bal
+		
+		# cov and var
+		rangepred50 ~~ 0.0026380 * rangepred90
+		L5 ~~ IG_bal
+		L9 ~~ IG_bal
+		L5 ~~ L9
+	""",
+	mimic_lavaan=True,
+)	
+\end{lstlisting}
+where
+\begin{enumerate}
+	\item L5 is a name substitution for rangepred50 which is the normalized and logistical quartile probability of policy adoption for the 50th percentile given by the following transformations: 
+	\begin{lstlisting}[language=python]
+		rangepred50 = normalize(qlogis(raw_data["pred50_sw"]))
+	\end{lstlisting}
+	where "normalize" is given by the simple equation $\tilde{x} = \frac{x - \min(x)}{\max(x) - \min(x)}$, "qlogis" \cite{R-logistic} is the slightly more complex $$\text{qlogis}(x) = \frac{1}{1 + e^{-\frac{x - \mu}{\sigma}}}$$ and "pred50\_sw" is the proportion of the 50th economic percentile in favor of the piece of legislation passing -- calculated per-piece of legislation. In this case, $\mu$ and $\sigma$ are assumed to be 0 and 1 respectively\footnote{This may be a bad decision because it means all data vectors to which this is applied will be mapped to something gaussian-like and then normalized which sounds like it introduces artificial similarity. Normalization is necessary for the multivariate analysis but the additional use of "qlogis" with $[\mu, \sigma] = [0, 1]$ may be erroneous.}.
+	\item L9 is a name substitution for rangepred90 which is transformed identically to L5.
+	\item IG\_bal is a name substitution for rangeinterest which is calculated using the following equation\footnote{This equation visually differs from that defined in the original paper, but using the log rule $\ln(a/b) = \ln(a) - \ln(b)$, we can obtain this slightly shorter equation.}:
+	\[\text{net interest group alignment} = \ln\Big(\frac{\text{\# Strongly favor} + \frac{1}{2} \text{\# Weakly favor} + 1}{\text{\# Strongly oppose} + \frac{1}{2} \text{\# Weakly oppose} + 1}\Big)\]
+	This "net interest group alignment" is then normalized between 0 and 1 to yield IG\_bal:
+	\[ \text{IG\_bal} = \text{normalize}(\text{net interest group alignment}) \]
+	\item policy\_change is declared to be a function of L5, L9, and IG\_bal
+	\item rangepred50 is declared to have an artificially small dependence on rangepred90 (e.g. if rangepred90 changes by 1, this line asserts that rangepred50 should change 0.0026380)\footnote{At least the optimizer should start with this assumption; it is allowed to optimize away from this relationship).}. This is asserting the conclusion that rangepred90 is the more significant factor. Despite that artificial assumption, we will see in figure \ref{strict-regen-multivariate-correlation} that it still doesn't regenerate the result obtained in the original paper's tables 3 and 4 and the optimizer finds the contradictory conclusion.
+	\item L5 is defined to be correlated with IG\_bal
+	\item L9 is defined to be correlated with IG\_bal
+	\item L5 is defined to be correlated with L9
+\end{enumerate}
+When this is run, the following relationships between the three variables (L5, L9, IG\_bal) are obtained:
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics[width=\linewidth]{./figures/generated/multivariate-analysis/strict-regen-multivariate-correlation.png}
+	\end{center}
+	\caption{An attempt at regenerating the multivariate model used in \textit{Testing Theories of American Politics: Elites, Interest Groups, and Average Citizens} is here shown. Please see listing \ref{strict-model-definition} for a definition of the model and the corresponding explanation for variable name descriptions. The arrows, however, signify the following:\\ - IG\_bal (i.e. interest groups) has the largest influence on the probability of policy change adoption (0.477)\\- L5 (i.e. the 50th income percentile) has middling influence on the probability of policy adoption (0.392)\\- L9 (i.e. the economic elite) has the smallest influence on the probability of policy adoption (0.229)\\This contradicts the conclusion of the original paper.\\It should be noted, however, that wherever an optimizer is involved, many results may follow. It's unclear how IBM's AMOS package may have optimized this. It does, however, show that the result is likely an artifact of how few data are present.}
+	\label{strict-regen-multivariate-correlation}
+\end{figure}
+
+A more complete look at the relationships between these three variables also shows an important feature:
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics[width=\linewidth]{./figures/generated/multivariate-analysis/strict-regen-multivariate-correlation-full.png}
+	\end{center}
+	\caption{An more complex relationship plot for the model generated in figure \ref{strict-regen-multivariate-correlation} is here shown. Please see listing \ref{strict-model-definition} for a definition of the model and the corresponding explanation for variable name descriptions. The important thing to recognize here is that the p-val for the relationship between L5 and IG\_bal is quite large (0.15) such that we cannot conclude that they are separate distributions. As such, this model fails to differentiate between the policy preferences of the 50th percentile and interest groups (at least in the way the data have been here preprocessed).}
+	\label{strict-regen-multivariate-correlation-full}
+\end{figure}
+
+In conclusion, the model as defined in the R script provided by Dr. Martin Giles fails to reproduce the model used in the generation of figure 1 and tables 3 and 4 of the original paper.
+
+Without that model, the result of the paper is unsubstantiated.
+
+\subsection{Regenerating without Assumed Covariance}
+Removing the manually assumed covariance from listing \ref{strict-model-definition}, we obtain the following model:
+\begin{lstlisting}[language=python,label=no-covariance-model-definition,caption={SEM model without assumed covariance between rangepred50 and rangepred90}]
+from semopy import Model
+model = Model(
+	description="""
+		# measurement
+		L5 =~ 1 * rangepred50
+		L9 =~ 1 * rangepred90
+		IG_bal =~ 1 * rangeinterest
+		
+		# regressions
+		policy_change ~ L5 + L9 + IG_bal
+		
+		# cov and var
+		L5 ~~ IG_bal
+		L9 ~~ IG_bal
+		L5 ~~ L9
+	""",
+	mimic_lavaan=True,
+)	
+\end{lstlisting}
+Using this model, a similar result to figure \ref{strict-regen-multivariate-correlation-full} is obtained:
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics[width=200px]{./figures/generated/multivariate-analysis/no-assumed-covariance-multivariate-correlation-full.png}
+	\end{center}
+	\caption{The model result from listing \ref{no-covariance-model-definition} is here shown. Please see listing \ref{no-covariance-model-definition} for a definition of the model and the corresponding explanation for variable name descriptions from listing \ref{strict-model-definition}. Here we can see that again (w.r.t. figure \ref{strict-regen-multivariate-correlation-full}), we see that L5 and IG\_bal cannot be differentiated and they both have a much more significant impact on the probability of policy adoption as compared to L9.}
+	\label{no-covariance-regen-multivariate-correlation-full}
+\end{figure}
+
+In conclusion, even the assumed covariance between rangepred50 and rangepred90 can't explain the model obtained by the authors in the original paper. 
+
+\section{Inspection of Figure 1}
+
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics[height=400px]{./figures/figure1.png}
+	\end{center}	
+	\caption{Figure 1 from \textit{Testing Theories of American Politics: Elites, Interest Groups, and Average Citizens} is here shown. From a clarity standpoint, figures should, ideally, be able to stand by themselves because they are most likely to be taken out of context. As such, a more comprehensive figure caption would be appreciated such that the narrative is clearly explained along with the analysis method performed to generate these plots.}
+	\label{paper_figure1}
+\end{figure}
+
+To begin, we must understand how this figure was generated.
+Based on page 572R, these figures were created using the multivariate model.
+In the previous sections, however, we've shown that the multivariate model is either deeply flawed or misleading.
+As such, we should be able to discount figure 1 immediately but upon closer inspection, additional concerns are raised.
+
+\subsection{Figure 1a - Average Citizens' Preferences}
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics[width=300px]{./figures/paper/average-citizens-preferences.png}
+	\end{center}	
+	\caption{Figure 1a from \textit{Testing Theories of American Politics: Elites, Interest Groups, and Average Citizens} is here shown. An explanation of the axes follows: \\The x-axis is the proportion of people in this income percentile (here the 50th percentile) who want the legislation to pass; the 90-100 bracket therefore indicates that 90-100\% of survey respondents in the 50th income percentile want the legislation to pass. \\The left axis indicates the probability that the legislation will pass for that preference bracket; if 90-100\% of 50th income percentile want legislation to pass, this plot indicates there's a slightly greater than 30\% chance of it passing. \\The right axis indicates the number of cases examined in this dataset which have that proportion of 50th income percentile respondents favoring the policy being adopted; out of these $\approx$1800 cases examined, about 4\% of them had 90-100\% of the 50th income percentile favoring their adoption.}
+	\label{paper_figure1a}
+\end{figure}
+
+Nothing about this figure immediately stands out as problematic beyond the model that is used to generate it. There is a reasonable distribution of cases (see figure \ref{paper_figure1a} for an explanation of axes) across percent favoring brackets and it is approximately normal.
+
+
+\subsection{Figure 1b - Economic Elites' Preferences}
+\label{section_figure1b}
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics[width=300px]{./figures/paper/economic-elites-preferences.png}
+	\end{center}	
+	\caption{Figure 1b from \textit{Testing Theories of American Politics: Elites, Interest Groups, and Average Citizens} is here shown. Here we can plainly see (in contrast to figure \ref{paper_figure1a}) that as more economic elites prefer adopting a policy, the greater the chance that policy is adopted.}
+	\label{paper_figure1b}
+\end{figure}
+
+Nothing about this figure immediately stands out as problematic beyond the model that is used to generate it.
+
+
+\subsection{Figure 1c - Interest Group Alignments}
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics[width=300px]{./figures/paper/interest-group-preferences.png}
+	\end{center}	
+	\caption{Figure 1c from \textit{Testing Theories of American Politics: Elites, Interest Groups, and Average Citizens} is here shown. Without delving into the text, several issues stand out. \\The data are approximately normal about 0 but the plot extends beyond where there are data. A plot between [-6, 6] would have been sufficient to hypothesize that interest group alignment is correlated with legislative outcome without extrapolating into a sparse or absent data region. \\Given how few data are in some regions, even though this is the output of a multimodal model, this is clearly inaccurate, even when just using the raw data, nevermind a model which required finding the relationship between data. The choice of a logistic/sigmoid function for this interpolation/extrapolation additionally encodes an assumption which may not be valid. \\Additionally, the equation for net interest groups as given on page 569R of the original paper cannot have been here used. That equation simplifies to $\ln(a/b)$ where $a$ and $b$ are functions of how many interest groups support, $a$, or oppose, $b$, a policy. If we examine the extrema of the axes, $[e^{-24}, e^{24}] \approx [0, 2.6E^{10}]$. There are not $2.6E10$ humans on Earth, nevermind interest groups even if we double them for being strongly in favor or opposed. Even within the center of highest density, $e^{4} \approx 54$ is a greater additive favor score, $a$, than any policy got (though the maximum is technically 86 if every interest group surveyed strongly supports a policy).\\As a final sanity check for the data distribution, please find a histogram of the net interest group calculated as a simple sum in figure \ref{generated_figure1c_data_sparsity}.}
+	\label{paper_figure1c}
+\end{figure}
+
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics[width=300px]{./figures/generated/interest-group-count-histogram.png}
+	\end{center}	
+	\caption{As an additional demonstration of the sparsity of net interest group data, a finer histogram is here shown. The left and right plots in this figure contain the same data but different y-axis limits to allow us to examine the extrema of the x-axis. \\From this, we can clearly see there are insufficient data outside of the central spike to make a reasonable claim to statistical significance.}
+	\label{generated_figure1c_data_sparsity}
+\end{figure}
+
+Finally, as a logical critique, there's little reason to believe that the more interest groups which are in favor or oppose a piece of legislation, the greater the chance it'll pass.
+If an interest group with the weight and coffers of the NRA had a strong opinion about a piece of legislation such that the riches of Timbuktu were spent getting it passed, it likely matters little that a small interest group opposes them. 
+This metric (net interest group alignment) gives both interest groups the same weight, differing only if one "strongly" or "somewhat" agrees/disagrees\footnote{And yet even this critique is assuming that money is a more powerful predictor of adopting legislation which is also not here proven. It may be so shown in other papers but it is not here a given but is unnecessary to complete the critique of net interest group alignment as a valid metric.}. Without a deeper understanding of why interest group alignment is a valid metric, it is more harmful than helpful; a more thorough study would need to establish that alignment is more important than something like inflation-adjusted lobbying or advertising. If those data are unavailable, that does not mean that net interest group alignment is valid.
+
+\subsection{Figure 1 as a Whole}
+All the figures are called into question because of their dependence on a faulty multivariate model, but figure 1c in particular has serious omissions of analysis methodology and unfounded extrapolation which contaminate its use in the narrative.
+
 
 \section{Conclusion}
-Given the still unknown assumptions behind the paper's figure 1 and the nearly-zero p-values and $R^2$ of tables 3 and 4, the argument presented in the paper \textit{Testing Theories of American Politics: Elites, Interest Groups, and Average Citizens} is at best sentimental.
+Given the glaring, unexplained flaws with the multivariate model attempting to connect economic group, interest group alignment, and probability of policy adoption -- e.g. $R^2$ of nearly zero and failure to replicate -- the argument presented in \textit{Testing Theories of American Politics: Elites, Interest Groups, and Average Citizens} is at best sentimental.
 
-There are data present which may, upon a more thorough analysis, support their claim, but there may be an insufficient quantity to draw a conclusion; regardless, the paper's analysis is insufficient to establish a basis for it.\\
+There are data present which may, upon a more thorough analysis and greater data collection, support their claim, but there is currently a dearth of data in support of it.
 
-Using the data to attempt to regenerate the plots in figure 1, it quickly becomes clear that the correlation in opinion between economic groups is so strong that cases of even moderate disagreement are few and far between.
-Demonstrating the conclusion proposed by the authors will likely require much more data if the correlation here shown still holds in any new data.
+As such, we recommend that \textit{Testing Theories of American Politics: Elites, Interest Groups, and Average Citizens} be redacted for issues with its figure, analysis, and failure to replicate.
 
 \newpage
 \input{bib.tex}
